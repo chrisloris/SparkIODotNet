@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServices", "WebServices\WebServices.csproj", "{A18659D4-3755-4701-9814-D1875D51F63B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication2", "ConsoleApplication2\ConsoleApplication2.csproj", "{B633974C-F395-4F50-A073-B4B1F709352F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrivEmTinkerAPI", "DrivEm\DrivEmTinkerAPI.csproj", "{8981EBD5-143F-49D2-9218-948AC42FC328}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A18659D4-3755-4701-9814-D1875D51F63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A18659D4-3755-4701-9814-D1875D51F63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A18659D4-3755-4701-9814-D1875D51F63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A18659D4-3755-4701-9814-D1875D51F63B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B633974C-F395-4F50-A073-B4B1F709352F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B633974C-F395-4F50-A073-B4B1F709352F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B633974C-F395-4F50-A073-B4B1F709352F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B633974C-F395-4F50-A073-B4B1F709352F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8981EBD5-143F-49D2-9218-948AC42FC328}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8981EBD5-143F-49D2-9218-948AC42FC328}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8981EBD5-143F-49D2-9218-948AC42FC328}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8981EBD5-143F-49D2-9218-948AC42FC328}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
