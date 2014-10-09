@@ -14,6 +14,8 @@ namespace SparkIO.WebServices
     internal class EventStreamEmitter
     {
         private ConcurrentQueue<String> queue;
+        private string filterEventName = null;
+        private bool exactMatch = false;
         
         private volatile bool _shouldStop = false;
 
@@ -63,11 +65,13 @@ namespace SparkIO.WebServices
 	    public event EventHandler<SSEEventArgs> EventReceived;
 	    #endregion Events
 
-        public EventStreamEmitter() { }
+        private EventStreamEmitter() { }
 
-        public EventStreamEmitter(ConcurrentQueue<String> _queue)
+        public EventStreamEmitter(ConcurrentQueue<String> _queue, string _eventName = null, bool _exactMatch = false)
         {
             queue = _queue;
+            filterEventName = _eventName;
+            exactMatch = _exactMatch;
         }
 
 
@@ -75,6 +79,12 @@ namespace SparkIO.WebServices
         {
             string line;
             string type;
+            bool filter = false;
+
+            if (exactMatch == true && filterEventName != null && filterEventName.Length > 0)
+            {
+                filter = true;
+            }
 
             Object objResponse;
             EventDataVar eventData;
@@ -93,20 +103,25 @@ namespace SparkIO.WebServices
                         line = line.Substring(line.IndexOf(' ') + 1);
                         if (type == "data:" && eventName != string.Empty)
                         {
-                            // Get the data from the line
-                            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(line));
-                            objResponse = jsonSerializerData.ReadObject(ms);
-                            eventData = objResponse as EventDataVar;
-
-                            // We've got all of the data - raise the event
-                            EventHandler<SSEEventArgs> handler = EventReceived;
-                            if(handler != null)
+                            if (filter && filterEventName != eventName)
+                            {}
+                            else
                             {
-                                handler(this, new SSEEventArgs(eventName, eventData.Data, eventData.TTL, 
-                                    DateTime.Parse(eventData.PublishedAt), eventData.CoreID));
+                                // Get the data from the line
+                                MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(line));
+                                objResponse = jsonSerializerData.ReadObject(ms);
+                                eventData = objResponse as EventDataVar;
+
+                                // We've got all of the data - raise the event
+                                EventHandler<SSEEventArgs> handler = EventReceived;
+                                if (handler != null)
+                                {
+                                    handler(this, new SSEEventArgs(eventName, eventData.Data, eventData.TTL,
+                                        DateTime.Parse(eventData.PublishedAt), eventData.CoreID));
+                                }
+                                // reset the event name
+                                eventName = string.Empty;
                             }
-                            // reset the event name
-                            eventName = string.Empty;
                         }
                         else if (type == "event:" && eventName == string.Empty)
                         {
