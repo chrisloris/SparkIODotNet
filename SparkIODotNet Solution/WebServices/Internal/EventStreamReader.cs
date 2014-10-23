@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 
-namespace SparkIO.WebServices
+namespace SparkIO.WebServices.Internal
 {
     internal class EventStreamReader
     {

@@ -8,8 +8,10 @@ using System.Threading;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using SparkIO.WebServices.JSON;
+using SparkIO.WebServices.CustomEventArgs;
 
-namespace SparkIO.WebServices
+namespace SparkIO.WebServices.Internal
 {
     internal class EventStreamEmitter
     {
@@ -18,22 +20,6 @@ namespace SparkIO.WebServices
         private bool exactMatch = false;
         
         private volatile bool _shouldStop = false;
-
-        #region JSON Data Contracts
-        [DataContract]
-        protected class EventDataVar
-        {
-            [DataMember(Name = "data")]
-            public string Data { get; set; }
-            [DataMember(Name = "ttl")]
-            public int TTL { get; set; }
-            [DataMember(Name = "published_at")]
-            public String PublishedAt { get; set; }
-            [DataMember(Name = "coreid")]
-            public string CoreID { get; set; }
-        }
-
-        #endregion
 
         #region Custom Event Classes
         /*
