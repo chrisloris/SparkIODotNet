@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using SparkIO.WebServices.JSON;
 
 namespace SparkIO.WebServices
 {
@@ -17,49 +18,6 @@ namespace SparkIO.WebServices
         private const string addrCoreAPICallFunction = sparkURL + "/devices/{0}/{1}"; // {0} - Core ID {1} - function
         private const string addrCoreAPIGetVariable = sparkURL + "/devices/{0}/{1}?access_token={2}"; // {0} - Core ID {1} - variable name {2} - access token
         private const string payloadCoreAPICallFunction = "access_token={0}&args={1}"; // {0} = Access Token {1} - args
-        #endregion
-
-        #region JSON Data Contracts
-        [DataContract]
-        protected class ResponseVar
-        {
-            [DataMember(Name = "cmd")]
-            public string Command { get; set; }
-            [DataMember(Name = "name")]
-            public string Name { get; set; }
-            [DataMember(Name = "result")]
-            public string Result { get; set; }
-            [DataMember(Name = "coreInfo")]
-            public ResponseVarChild CoreInfo { get; set; }
-        }
-
-        [DataContract]
-        protected class ResponseVarChild
-        {
-            [DataMember(Name = "last_app")]
-            public string LastApp { get; set; }
-            [DataMember(Name = "last_heard")]
-            public string LastHeard { get; set; }
-            [DataMember(Name = "connected")]
-            public bool Connected { get; set; }
-            [DataMember(Name = "deviceID")]
-            public string DeviceID { get; set; }
-        }
-
-        [DataContract]
-        protected class ResponseFunc
-        {
-            [DataMember(Name = "id")]
-            public string ID { get; set; }
-            [DataMember(Name = "name")]
-            public string Name { get; set; }
-            [DataMember(Name = "last_app")]
-            public string LastApp { get; set; }
-            [DataMember(Name = "connected")]
-            public bool Connected { get; set; }
-            [DataMember(Name = "return_value")]
-            public string ReturnValue { get; set; }
-        }
         #endregion
 
         #region Constructors
