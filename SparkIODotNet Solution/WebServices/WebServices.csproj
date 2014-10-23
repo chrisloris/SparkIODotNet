@@ -7,7 +7,7 @@
     <ProjectGuid>{A18659D4-3755-4701-9814-D1875D51F63B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebServices</RootNamespace>
+    <RootNamespace>SparkIO.WebServices</RootNamespace>
     <AssemblyName>WebServices</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -42,16 +42,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseAPI.cs" />
-    <Compile Include="EventStreamEmitter.cs" />
+    <Compile Include="Internal\EventStreamEmitter.cs" />
     <Compile Include="CoreAPI.cs" />
     <Compile Include="EventsAPI.cs" />
-    <Compile Include="EventStreamReader.cs" />
+    <Compile Include="Internal\EventStreamReader.cs" />
+    <Compile Include="JSON\DeviceInfo.cs" />
+    <Compile Include="JSON\DeviceList.cs" />
+    <Compile Include="JSON\DictStringString.cs" />
+    <Compile Include="JSON\EventDataVar.cs" />
+    <Compile Include="JSON\ResponseFunc.cs" />
+    <Compile Include="JSON\ResponseVar.cs" />
+    <Compile Include="JSON\ResponseVarChild.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SSEEventArgs.cs" />
+    <Compile Include="CustomEventArgs\SSEEventArgs.cs" />
     <Compile Include="TinkerAPI.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

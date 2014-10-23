@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.IO;
 using System.Net;
+using SparkIO.WebServices.Internal;
+using SparkIO.WebServices.CustomEventArgs;
 
 namespace SparkIO.WebServices
 {
