@@ -294,16 +294,22 @@ namespace SparkIO.WebServices
         {
             // instantiate the stream reader and event emitter
             reader = new EventStreamReader(stream, queue);
-            emitter = new EventStreamEmitter(queue, eventName, exactMatch);
-
-            // wire up the emitter to our event
-            emitter.EventReceived += this.EventReceived;
+            emitter = new EventStreamEmitter(queue,  this.raiseEvent, eventName, exactMatch);
 
             // start the task reader : stream -> queue
             taskReader = Task.Factory.StartNew(() => reader.DoWork(), TaskCreationOptions.LongRunning);
 
             // start the task emitter : queue -> events
             taskEmitter = Task.Factory.StartNew(() => emitter.DoWork(), TaskCreationOptions.LongRunning);
+        }
+
+        protected void raiseEvent(SSEEventArgs eventArgs)
+        {
+            // We've got all of the data - raise the event
+            if (EventReceived != null)
+            {
+                EventReceived(this, eventArgs);
+            }
         }
 
         private void CheckSSEStreamIsOK(Stream stream)
