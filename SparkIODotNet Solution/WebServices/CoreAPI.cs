@@ -31,14 +31,19 @@ namespace SparkIO.WebServices
         #endregion
 
         #region Main Functions - Get Variable
-        public string GetVariableString(string varName)
+        public ResponseVar GetVariableRaw(string varName)
         {
             HttpWebRequest request = GetHttpWebRequest(webMethod.GET, String.Format(addrCoreAPIGetVariable, this.CoreID, varName, AccessToken), string.Empty);
 
             object jsonObj = GetHttpWebResponseAsJSONData(request, typeof(ResponseVar));
             ResponseVar jsonResponse = jsonObj as ResponseVar;
 
-            return jsonResponse.Result;
+            return jsonResponse;
+        }
+
+        public string GetVariableString(string varName)
+        {
+            return GetVariableRaw(varName).Result;
         }
 
         public int GetVariableInt(string varName)
@@ -94,7 +99,7 @@ namespace SparkIO.WebServices
         #endregion
 
         #region Main Functions - Call Function
-        public string CallFunctionString(string funcName, string args)
+        public ResponseFunc CallFunctionRaw(string funcName, string args)
         {
             String payload =  String.Format(payloadCoreAPICallFunction,
                               HttpUtility.UrlEncode(AccessToken),
@@ -111,14 +116,14 @@ namespace SparkIO.WebServices
                 throw new ApplicationException("SparkCore not connected.");
             }
 
-            return jsonResponse.ReturnValue;
+            return jsonResponse;
         }
-
+        
         public int CallFunctionInt(string funcName, string args)
         {
             int result;
 
-            string resultString = CallFunctionString(funcName, args);
+            string resultString = CallFunctionRaw(funcName, args).ReturnValue;
 
             if (int.TryParse(resultString, out result))
             {
@@ -127,40 +132,6 @@ namespace SparkIO.WebServices
             else
             {
                 String message = String.Format("Request for function {0} failed to convert value '{1}' to int.", funcName, resultString);
-                throw new ApplicationException(message);
-            }
-        }
-
-        public double CallFunctionDouble(string funcName, string args)
-        {
-            double result;
-
-            string resultString = CallFunctionString(funcName, args);
-
-            if (double.TryParse(resultString, out result))
-            {
-                return result;
-            }
-            else
-            {
-                String message = String.Format("Request for function {0} failed to convert value '{1}' to double.", funcName, resultString);
-                throw new ApplicationException(message);
-            }
-        }
-
-        public bool CallFunctionBoolean(string funcName, string args)
-        {
-            bool result;
-
-            string resultString = CallFunctionString(funcName, args);
-
-            if (bool.TryParse(resultString, out result))
-            {
-                return result;
-            }
-            else
-            {
-                String message = String.Format("Request for function {0} failed to convert value '{1}' to bool.", funcName, resultString);
                 throw new ApplicationException(message);
             }
         }
