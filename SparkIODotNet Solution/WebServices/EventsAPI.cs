@@ -9,6 +9,7 @@ using System.IO;
 using System.Net;
 using SparkIO.WebServices.Internal;
 using SparkIO.WebServices.CustomEventArgs;
+using System.Threading;
 
 namespace SparkIO.WebServices
 {
@@ -292,9 +293,13 @@ namespace SparkIO.WebServices
         #region internal methods
         private void StartEvents(Stream stream, string eventName = null, bool exactMatch = false)
         {
+            // create an event so reader can signal emitter
+            AutoResetEvent emitterWaitHandle = new AutoResetEvent(true);
+
             // instantiate the stream reader and event emitter
-            reader = new EventStreamReader(stream, queue);
-            emitter = new EventStreamEmitter(queue,  this.raiseEvent, eventName, exactMatch);
+            reader = new EventStreamReader(stream, queue, emitterWaitHandle);
+            emitter = new EventStreamEmitter(queue,  this.raiseEvent, emitterWaitHandle, eventName, exactMatch);
+
 
             // start the task reader : stream -> queue
             taskReader = Task.Factory.StartNew(() => reader.DoWork(), TaskCreationOptions.LongRunning);

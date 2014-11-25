@@ -13,15 +13,19 @@ namespace SparkIO.WebServices.Internal
     {
         private Stream stream;
         private ConcurrentQueue<String> queue;
+        private AutoResetEvent emitterWaitHandle;
+        private int sleepTimeMs;
         
         private volatile bool _shouldStop = false;
 
         private EventStreamReader() { }
 
-        public EventStreamReader(Stream _stream, ConcurrentQueue<String> _queue)
+        public EventStreamReader(Stream _stream, ConcurrentQueue<String> _queue, AutoResetEvent _emitterWaitHandle, int _sleepTimeMs = 1000)
         {
             stream = _stream;
             queue = _queue;
+            emitterWaitHandle = _emitterWaitHandle;
+            sleepTimeMs = _sleepTimeMs;
         }
 
         public void DoWork()
@@ -59,10 +63,12 @@ namespace SparkIO.WebServices.Internal
                                 {  // if we have an oprhan from previous reads - prepend it to current line and send
                                     queue.Enqueue(orphanLine.Append(lines[i - 1]).ToString());
                                     orphanLine.Clear();
+                                    emitterWaitHandle.Set();
                                 }
                                 else  // no previous orphans so just send the current line
                                 {
                                     queue.Enqueue(lines[i - 1]);
+                                    emitterWaitHandle.Set();
                                 }
                             }
                         }
@@ -72,16 +78,24 @@ namespace SparkIO.WebServices.Internal
                             {  // orphan last line - save it for the next lines
                                 orphanLine.Append(lines[i - 1]);
                             }
-                            else  // complete last line - send
+                            else  // complete last line - send and signal
                             {
                                 queue.Enqueue(lines[i - 1]);
+                                emitterWaitHandle.Set();
+
                             }
                         }
                         else
-                        {  // not the first or last line - just send
+                        {  // not the first or last line - just send and signal
                             queue.Enqueue(lines[i - 1]);
+                            emitterWaitHandle.Set();
                         }
                     }
+                }
+                else // nothing in the stream
+                {
+                    // let's sleep a bit to give the CPU a break
+                    Thread.Sleep(sleepTimeMs);
                 }
             }
 

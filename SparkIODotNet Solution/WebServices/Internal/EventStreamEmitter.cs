@@ -21,15 +21,17 @@ namespace SparkIO.WebServices.Internal
         private string filterEventName = null;
         private bool exactMatch = false;
         private EventFunction raiseEvent;
+        private AutoResetEvent emitterWaitHandle;
 
         private volatile bool _shouldStop = false;
 
         private EventStreamEmitter() { }
 
-        public EventStreamEmitter(ConcurrentQueue<String> _queue, EventFunction _raiseEvent, string _eventName = null, bool _exactMatch = false)
+        public EventStreamEmitter(ConcurrentQueue<String> _queue, EventFunction _raiseEvent, AutoResetEvent _emitterWaitHandle, string _eventName = null, bool _exactMatch = false)
         {
             queue = _queue;
             filterEventName = _eventName;
+            emitterWaitHandle = _emitterWaitHandle;
             exactMatch = _exactMatch;
             raiseEvent = _raiseEvent;
         }
@@ -54,6 +56,9 @@ namespace SparkIO.WebServices.Internal
 
             while (!_shouldStop)
             {
+                // wait for signal
+                emitterWaitHandle.WaitOne();
+
                 if(queue.TryDequeue(out line))  // we have lines of events
                 {
                     if (line.Length >= 6)  // valid data line is atleast 6 long
@@ -96,6 +101,7 @@ namespace SparkIO.WebServices.Internal
         public void RequestStop()
         {
             _shouldStop = true;
+            emitterWaitHandle.Set();
         }
 
     }
