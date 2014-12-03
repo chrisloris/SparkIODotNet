@@ -302,10 +302,10 @@ namespace SparkIO.WebServices
 
 
             // start the task reader : stream -> queue
-            taskReader = Task.Factory.StartNew(() => reader.DoWork(), TaskCreationOptions.LongRunning);
+            taskReader = Task.Factory.StartNew(() => { Thread.CurrentThread.Name = "StreamReader"; reader.DoWork(); }, TaskCreationOptions.LongRunning);
 
             // start the task emitter : queue -> events
-            taskEmitter = Task.Factory.StartNew(() => emitter.DoWork(), TaskCreationOptions.LongRunning);
+            taskEmitter = Task.Factory.StartNew(() => {Thread.CurrentThread.Name = "Event Emitter" ; emitter.DoWork();}, TaskCreationOptions.LongRunning);
         }
 
         protected void raiseEvent(SSEEventArgs eventArgs)

@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using SparkIO.WebServices.JSON;
 using SparkIO.WebServices.CustomEventArgs;
+using System.Diagnostics;
 
 namespace SparkIO.WebServices.Internal
 {
@@ -17,6 +18,7 @@ namespace SparkIO.WebServices.Internal
 
     internal class EventStreamEmitter
     {
+
         private ConcurrentQueue<String> queue;
         private string filterEventName = null;
         private bool exactMatch = false;
@@ -59,7 +61,7 @@ namespace SparkIO.WebServices.Internal
                 // wait for signal
                 emitterWaitHandle.WaitOne();
 
-                if(queue.TryDequeue(out line))  // we have lines of events
+                if (queue.TryDequeue(out line))  // we have lines of events
                 {
                     if (line.Length >= 6)  // valid data line is atleast 6 long
                     {
@@ -68,7 +70,7 @@ namespace SparkIO.WebServices.Internal
                         if (type == "data:" && eventName != string.Empty)
                         {
                             if (filter && filterEventName != eventName)
-                            {}
+                            { }
                             else
                             {
                                 // Get the data from the line
@@ -77,8 +79,11 @@ namespace SparkIO.WebServices.Internal
                                 eventData = objResponse as EventDataVar;
 
                                 // raise the event
-                                raiseEvent(new SSEEventArgs(eventName, eventData.Data, eventData.TTL,
-                                        DateTime.Parse(eventData.PublishedAt), eventData.CoreID));
+                                //if (!_shouldStop)
+                                //{
+                                    raiseEvent(new SSEEventArgs(eventName, eventData.Data, eventData.TTL,
+                                            DateTime.Parse(eventData.PublishedAt), eventData.CoreID));
+                                //}
 
                                 // reset the event name
                                 eventName = string.Empty;
@@ -95,13 +100,13 @@ namespace SparkIO.WebServices.Internal
                     }
                 }
             }
-
         }
 
         public void RequestStop()
         {
             _shouldStop = true;
             emitterWaitHandle.Set();
+
         }
 
     }
