@@ -68,13 +68,15 @@ namespace SparkIO.WebServices
         #endregion
 
         #region Constructors
-        public TinkerAPI(String coreID, String accessToken)
-            : base(coreID, accessToken)
+        public TinkerAPI(String accessToken, String coreID, WebProxy webProxy = null,
+                       bool acceptAllCertificates = false, string urlSparkCloud = sparkAddress) :
+            base(accessToken, coreID, webProxy, acceptAllCertificates, urlSparkCloud)
         {}
 
-        public TinkerAPI(String coreID, String accessToken, WebProxy webProxy)
-            : base(coreID, accessToken, webProxy)
-        {}
+        public TinkerAPI(String userName, String password, String coreID, WebProxy webProxy = null,
+                       bool acceptAllCertificates = false, string urlSparkCloud = sparkAddress) :
+            base(userName, password, coreID, webProxy, acceptAllCertificates, urlSparkCloud)
+        { }
         #endregion
 
         #region Main Functions

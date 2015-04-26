@@ -53,6 +53,7 @@
     <Compile Include="CoreAPITestClass.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BaseAPITestClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebServices\WebServices.csproj">

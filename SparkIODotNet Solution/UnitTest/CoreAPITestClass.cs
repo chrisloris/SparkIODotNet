@@ -14,13 +14,32 @@ namespace SparkIO.UnitTest
         public class GetVariableString
         {
             [TestMethod]
-            public void GetDefaultValue()
+            // Spark Web API Not Returning expected error codes
+            //[ExpectedException(typeof(SparkIO.WebServices.Exceptions.InvalidVariableOrFunctionException))]
+            //Hoping they will fix to return exception like when calling non-existent variable
+            //[ExpectedException(typeof(SparkIO.WebServices.Exceptions.CoreNotConnectedToCloudException))]
+            [ExpectedException(typeof(System.ApplicationException))]
+            public void InvalidFunction()
             {
                 CoreAPI core = Helper.GetCoreAPI();
-                
-                string strDefault = core.GetVariableString("varstring");
 
-                Assert.AreEqual(strDefault, "teststrvalue");
+                // test we can access the core by asking its name
+                Assert.AreEqual(core.GetCoreInfo().Name, Helper.GetCoreName());
+
+                // call non-existant function
+                core.CallFunctionInt("xxxxxx", "none");
+            }
+
+            [TestMethod]
+            // Spark Web API Not Returning expected error codes
+            //[ExpectedException(typeof(SparkIO.WebServices.Exceptions.InvalidVariableOrFunctionException))]
+            [ExpectedException(typeof(SparkIO.WebServices.Exceptions.CoreNotConnectedToCloudException))]
+            public void InvalidVariable()
+            {
+                CoreAPI core = Helper.GetCoreAPI();
+
+                // call non-existant function
+                core.GetVariableInt("xxxxxx");
             }
             /*
             [TestMethod]

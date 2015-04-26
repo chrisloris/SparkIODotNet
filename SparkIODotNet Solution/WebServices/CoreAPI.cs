@@ -21,13 +21,15 @@ namespace SparkIO.WebServices
         #endregion
 
         #region Constructors
-        public CoreAPI(String coreID, String accessToken) :
-            base(coreID, accessToken)
+        public CoreAPI(String accessToken, String coreID, WebProxy webProxy = null,
+                       bool acceptAllCertificates = false, string urlSparkCloud = sparkAddress) :
+            base(accessToken, coreID, webProxy, acceptAllCertificates, urlSparkCloud)
         {}
 
-        public CoreAPI(String coreID, String accessToken, WebProxy webProxy) :
-            base(coreID, accessToken, webProxy)
-        {}
+        public CoreAPI(String userName, String password, String coreID, WebProxy webProxy = null,
+                       bool acceptAllCertificates = false, string urlSparkCloud = sparkAddress) :
+            base(userName, password, coreID, webProxy, acceptAllCertificates, urlSparkCloud)
+        { }
         #endregion
 
         #region Main Functions - Get Variable
