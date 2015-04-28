@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>SparkIODotNet</id>
+    <version>1.0.0-CI00010</version>
+    <title>SparkIODotNet</title>
+    <authors>Christian Loris (christian.loris@gmail.com)</authors>
+    <owners>Christian Loris (christian.loris@gmail.com)</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.Net library for interacting with the Spark Core and Electron.  Provides support for calling functions and variables.  Also allows receipt of published events from a Core.</description>
+    <copyright>Copyright © Microsoft 2014</copyright>
+    <dependencies />
+  </metadata>
+</package>
