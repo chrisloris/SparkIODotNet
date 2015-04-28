@@ -78,7 +78,6 @@ namespace SparkIO.WebServices
             base(userName, password, coreID, webProxy, acceptAllCertificates, urlSparkCloud)
         { }
         #endregion
-
         #region Main Functions
         public GetStates DigitalWrite(Pins pin, SetStates state)
         {

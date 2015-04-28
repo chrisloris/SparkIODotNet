@@ -20,6 +20,11 @@ namespace SparkIO.WebServices
         private const string payloadCoreAPICallFunction = "access_token={0}&args={1}"; // {0} = Access Token {1} - args
         #endregion
 
+        #region Delegates
+        public delegate ResponseFunc CallFunctionRawDelegate(string funcName, string args);
+        public delegate int CallFunctionIntDelegate(string funcName, string args);
+        #endregion
+
         #region Constructors
         public CoreAPI(String accessToken, String coreID, WebProxy webProxy = null,
                        bool acceptAllCertificates = false, string urlSparkCloud = sparkAddress) :
