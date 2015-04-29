@@ -1,4 +1,4 @@
-SparkIODotNet
+SparkIODotNet  [![sparkiodotnet MyGet Build Status](https://www.myget.org/BuildSource/Badge/sparkiodotnet?identifier=dd963103-cf49-455d-9e4e-3b37957fcf94)](https://www.myget.org/)
 =============
 This project is a set of c# class libraries for interacting with a Spark Core.
 The Spark Core is an IoT device that is similar to a an Arduino or Netduino.  It
