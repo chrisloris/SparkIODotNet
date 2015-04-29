@@ -40,12 +40,12 @@ namespace SparkIO.WebServices
         #endregion Events
 
         #region Constructors
-        public EventsAPI(String accessToken, String coreID, WebProxy webProxy = null,
+        public EventsAPI(String accessToken, String coreID = "", WebProxy webProxy = null,
                        bool acceptAllCertificates = false, string urlSparkCloud = sparkAddress) :
             base(accessToken, coreID, webProxy, acceptAllCertificates, urlSparkCloud)
         {}
 
-        public EventsAPI(String userName, String password, String coreID, WebProxy webProxy = null,
+        public EventsAPI(String userName, String password, String coreID = "", WebProxy webProxy = null,
                        bool acceptAllCertificates = false, string urlSparkCloud = sparkAddress) :
             base(userName, password, coreID, webProxy, acceptAllCertificates, urlSparkCloud)
         { }
